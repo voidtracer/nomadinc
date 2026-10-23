@@ -1,6 +1,6 @@
-// Gallery data loader + lightbox
 (async function() {
   const gallery = document.getElementById('gallery');
+  const navButtons = document.querySelectorAll('.gallery-nav button');
   const lightbox = document.getElementById('lightbox');
   const lbImg = document.getElementById('lightbox-img');
   const lbCaption = document.getElementById('lightbox-caption');
@@ -9,22 +9,37 @@
   const lbNext = lightbox.querySelector('.lightbox-next');
   let images = [];
   let currentIndex = 0;
-  // Load gallery data
   try {
     const res = await fetch('data/gallery.json');
     if (!res.ok) throw new Error('Failed to load gallery');
     images = await res.json();
-    renderGallery();
   } catch (e) {
     console.error(e);
     gallery.innerHTML = '<p style="text-align:center;color:var(--olive);opacity:0.6;grid-column:1/-1;">Gallery data not found. Add <code>data/gallery.json</code>.</p>';
+    return;
   }
-  function renderGallery() {
-    if (!images.length) return;
+  render(images);
+  navButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      navButtons.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const filter = btn.dataset.category;
+      const filtered = filter === 'all'
+        ? images
+        : images.filter(img => img.category === filter);
+      render(filtered);
+    });
+  });
+  function render(list) {
+    gallery.innerHTML = '';
+    if (!list.length) {
+      gallery.innerHTML = '<p style="text-align:center;color:var(--olive);opacity:0.6;grid-column:1/-1;">No images in this category yet.</p>';
+      return;
+    }
     const grid = document.createElement('div');
     grid.className = 'gallery-grid';
     grid.setAttribute('role', 'list');
-    images.forEach((item, i) => {
+    list.forEach((item, i) => {
       const figure = document.createElement('figure');
       figure.className = 'gallery-item';
       figure.setAttribute('role', 'listitem');
@@ -37,19 +52,30 @@
           ${item.category ? `<p>${item.category}</p>` : ''}
         </figcaption>
       `;
-      figure.addEventListener('click', () => openLightbox(i));
-      figure.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openLightbox(i); } });
       grid.appendChild(figure);
     });
     gallery.appendChild(grid);
   }
+  // Event delegation: clicks work even after re-rendering the grid
+  gallery.addEventListener('click', e => {
+    const figure = e.target.closest('.gallery-item');
+    if (figure) openLightbox(parseInt(figure.dataset.index, 10));
+  });
+  gallery.addEventListener('keydown', e => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      const figure = e.target.closest('.gallery-item');
+      if (figure) {
+        e.preventDefault();
+        openLightbox(parseInt(figure.dataset.index, 10));
+      }
+    }
+  });
   function openLightbox(index) {
     currentIndex = index;
     updateLightbox();
     lightbox.hidden = false;
     document.body.style.overflow = 'hidden';
     lbImg.focus();
-    trapFocus(lightbox);
   }
   function closeLightbox() {
     lightbox.hidden = true;
@@ -76,15 +102,4 @@
     if (e.key === 'ArrowLeft') navigate(-1);
     if (e.key === 'ArrowRight') navigate(1);
   });
-  // Basic focus trap
-  function trapFocus(el) {
-    const focusable = el.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
-    const first = focusable[0];
-    const last = focusable[focusable.length - 1];
-    el.addEventListener('keydown', function trap(e) {
-      if (e.key !== 'Tab') return;
-      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
-      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
-    }, { once: true });
-  }
 })();
