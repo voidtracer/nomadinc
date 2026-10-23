@@ -6,7 +6,7 @@
     "category": "Wedding",
     "description": "Large wedding with many guests, shot on Canon EOS R10.",
     "width": 1200,
-    "height": 1600
+    "height": 1800
   },
   {
     "src": "assets/images/gallery/wedding-01.webp",
@@ -15,7 +15,7 @@
     "category": "Micro Wedding",
     "description": "20 guests, documentary coverage over 6 hours.",
     "width": 1200,
-    "height": 1600
+    "height": 1800
   },
   {
     "src": "assets/images/gallery/brand-01.webp",
@@ -23,7 +23,7 @@
     "title": "Studio M Ceramics",
     "category": "Brand Storytelling",
     "description": "Personal branding for artisan studio. Environmental portraits + process.",
-    "width": 1600,
+    "width": 1800,
     "height": 1200
   },
   {
@@ -33,7 +33,7 @@
     "category": "Maternity",
     "description": "In-home session, natural light only.",
     "width": 1200,
-    "height": 1600
+    "height": 1800
   },
   {
     "src": "assets/images/gallery/elopement-02.webp",
@@ -42,7 +42,7 @@
     "category": "Elopement",
     "description": "Sunrise ceremony at 2800m. Two witnesses, one photographer.",
     "width": 1200,
-    "height": 1600
+    "height": 1800
   },
   {
     "src": "assets/images/gallery/wedding-02.webp",
@@ -50,7 +50,7 @@
     "title": "Stellenbosch Wedding",
     "category": "Wedding",
     "description": "Full day coverage, 80 guests. Film simulation in post.",
-    "width": 1600,
+    "width": 1800,
     "height": 1200
   }
 ]
