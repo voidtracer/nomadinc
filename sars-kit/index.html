@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+<html lang="en-ZA">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SARS Side Hustle Kit — Nomad Inc</title>
+  <meta name="description" content="The only South African tax & admin kit built for freelancers, digital nomads, and side hustlers. Provisional tax calculator, expense tracker, invoice templates, deadlines calendar.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --sand: #E8D5B7;
+      --sand-dark: #D4C09E;
+      --sand-light: #F5EAD8;
+      --charcoal: #1C1C1C;
+      --charcoal-elevated: #2A2A2A;
+      --ink: #F5F5F0;
+      --ink-muted: #A8A8A0;
+      --terracotta: #C85C3C;
+      --sage: #7A9E7E;
+      --horizon: #4A7C9E;
+      --font-heading: 'Fraunces', 'Georgia', serif;
+      --font-body: 'DM Sans', system-ui, sans-serif;
+      --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+      --radius: 10px;
+      --shadow: 0 4px 24px rgba(0,0,0,0.3);
+      --space-1: 4px; --space-2: 8px; --space-3: 16px; --space-4: 24px;
+      --space-5: 32px; --space-6: 48px; --space-7: 64px; --space-8: 96px;
+    }
+
+    @media (prefers-color-scheme: light) {
+      :root {
+        --charcoal: #FAF8F5;
+        --charcoal-elevated: #FFFFFF;
+        --ink: #1C1C1C;
+        --ink-muted: #6B6B60;
+        --sand: #B8956B;
+        --sand-dark: #A08055;
+        --sand-light: #F5EAD8;
+        --terracotta: #B04A2E;
+        --sage: #5D8260;
+        --horizon: #3A6B8C;
+      }
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body);
+      background: var(--charcoal);
+      color: var(--ink);
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: var(--horizon); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    .container {
+      width: 100%; max-width: 1100px; margin: 0 auto; padding: 0 var(--space-4);
+    }
+
+    /* Header */
+    header {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: rgba(28, 28, 28, 0.9);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(232, 213, 183, 0.15);
+    }
+    @media (prefers-color-scheme: light) {
+      header { background: rgba(250, 248, 245, 0.9); border-bottom-color: rgba(184, 149, 107, 0.2); }
+    }
+    .header-inner {
+      display: flex; align-items: center; justify-content: space-between; height: 64px;
+    }
+    .logo {
+      font-family: var(--font-heading);
+      font-weight: 600; font-size: 1.15rem; color: var(--ink);
+      display: flex; align-items: center; gap: var(--space-2);
+      text-decoration: none;
+    }
+    .logo:hover { text-decoration: none; }
+    .logo-mark {
+      width: 32px; height: 32px;
+      background: linear-gradient(135deg, var(--sand), var(--sand-dark));
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--font-mono); font-size: 11px; font-weight: 700; color: var(--charcoal);
+      letter-spacing: 0.5px;
+    }
+    .logo-span { display: none; }
+    @media (min-width: 480px) { .logo-span { display: inline; } }
+
+    nav { display: none; gap: var(--space-5); }
+    nav a { color: var(--ink-muted); font-size: 0.85rem; font-weight: 500; }
+    nav a:hover { color: var(--sand); text-decoration: none; }
+    .header-cta { display: flex; align-items: center; gap: var(--space-3); }
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: var(--space-2);
+      padding: 12px 24px; border-radius: var(--radius);
+      font-family: var(--font-body); font-weight: 600; font-size: 0.9rem;
+      border: none; cursor: pointer; transition: all 0.2s ease; text-decoration: none;
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--sand), var(--sand-dark));
+      color: var(--charcoal); border: 2px solid transparent;
+    }
+    .btn-primary:hover {
+      background: linear-gradient(135deg, var(--sand-light), var(--sand));
+      transform: translateY(-2px); box-shadow: var(--shadow);
+      text-decoration: none;
+    }
+    .btn-ghost {
+      background: transparent; color: var(--ink);
+      border: 2px solid rgba(232, 213, 183, 0.3);
+    }
+    .btn-ghost:hover {
+      border-color: var(--sand); background: rgba(232, 213, 183, 0.1);
+      text-decoration: none;
+    }
+    @media (min-width: 768px) { nav { display: flex; } }
+
+    /* Hero */
+    .hero {
+      padding: calc(64px + var(--space-8)) 0 var(--space-8);
+      text-align: center; position: relative; overflow: hidden;
+    }
+    .hero::before {
+      content: ""; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+      background:
+        radial-gradient(ellipse 80% 50% at 50% 0%, rgba(232, 213, 183, 0.08) 0%, transparent 70%),
+        url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+      pointer-events: none;
+    }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: var(--space-2);
+      background: rgba(232, 213, 183, 0.15);
+      color: var(--sand); border: 1px solid rgba(232, 213, 183, 0.3);
+      padding: var(--space-1) var(--space-3); border-radius: 999px;
+      font-size: 0.75rem; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase;
+      margin-bottom: var(--space-4); position: relative; z-index: 1;
+    }
+    .hero h1 {
+      font-family: var(--font-heading); font-size: clamp(2.5rem, 5vw, 4rem);
+      font-weight: 700; line-height: 1.05; margin-bottom: var(--space-4);
+      letter-spacing: -0.02em; position: relative; z-index: 1;
+    }
+    .hero h1 .accent { color: var(--sand); }
+    .hero p {
+      font-size: clamp(1.1rem, 2vw, 1.3rem); color: var(--ink-muted);
+      max-width: 700px; margin: 0 auto var(--space-6); position: relative; z-index: 1;
+    }
+    .hero-ctas { display: flex; flex-wrap: wrap; gap: var(--space-3); justify-content: center; position: relative; z-index: 1; }
+    .trust-bar {
+      margin-top: var(--space-8); display: flex; flex-wrap: wrap; gap: var(--space-4);
+      justify-content: center; color: var(--ink-muted); font-size: 0.8rem;
+      position: relative; z-index: 1;
+    }
+    .trust-item { display: flex; align-items: center; gap: var(--space-1); }
+    .trust-dot { width: 6px; height: 6px; background: var(--sand); border-radius: 50%; }
+
+    /* Sections */
+    section { padding: var(--space-7) 0; }
+    .section-header { text-align: center; margin-bottom: var(--space-7); }
+    .section-header h2 {
+      font-family: var(--font-heading); font-size: clamp(1.75rem, 3vw, 2.5rem);
+      font-weight: 700; margin-bottom: var(--space-3); color: var(--ink);
+    }
+    .section-header p { color: var(--ink-muted); max-width: 600px; margin: 0 auto; }
+
+    /* Calculator */
+    .calculator-section {
+      background: linear-gradient(180deg, transparent, rgba(232, 213, 183, 0.03), transparent);
+      border-top: 1px solid rgba(232, 213, 183, 0.1);
+      border-bottom: 1px solid rgba(232, 213, 183, 0.1);
+    }
+    .calc-grid { display: grid; grid-template-columns: 1fr; gap: var(--space-6); }
+    @media (min-width: 900px) { .calc-grid { grid-template-columns: 1fr 1fr; align-items: start; } }
+    .calc-card {
+      background: var(--charcoal-elevated);
+      border: 1px solid rgba(232, 213, 183, 0.15);
+      border-radius: var(--radius); padding: var(--space-5);
+      box-shadow: var(--shadow);
+    }
+    .calc-card h2 {
+      font-family: var(--font-heading); font-size: 1.25rem; font-weight: 600;
+      margin-bottom: var(--space-4); display: flex; align-items: center; gap: var(--space-2);
+      color: var(--ink);
+    }
+    .calc-card h2::before {
+      content: ""; width: 4px; height: 28px; background: linear-gradient(180deg, var(--sand), var(--sand-dark));
+      border-radius: 2px;
+    }
+    .form-group { margin-bottom: var(--space-4); }
+    .form-group label {
+      display: block; font-size: 0.85rem; font-weight: 500; color: var(--ink-muted);
+      margin-bottom: var(--space-1);
+    }
+    .form-group input, .form-group select {
+      width: 100%; padding: 14px 16px; background: var(--charcoal);
+      border: 1px solid rgba(232, 213, 183, 0.2); border-radius: 8px;
+      color: var(--ink); font-family: var(--font-body); font-size: 1rem;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .form-group input:focus, .form-group select:focus {
+      outline: none; border-color: var(--sand);
+      box-shadow: 0 0 0 3px rgba(232, 213, 183, 0.2);
+    }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-3); }
+    @media (max-width: 480px) { .form-row { grid-template-columns: 1fr; } }
+
+    .results { background: var(--charcoal); border: 1px solid rgba(232, 213, 183, 0.15); border-radius: 8px; padding: var(--space-4); margin-top: var(--space-4); }
+    .result-row { display: flex; justify-content: space-between; align-items: center; padding: var(--space-2) 0; border-bottom: 1px solid rgba(232, 213, 183, 0.1); }
+    .result-row:last-child { border-bottom: none; }
+    .result-label { color: var(--ink-muted); font-size: 0.9rem; }
+    .result-value { font-family: var(--font-mono); font-size: 1.15rem; font-weight: 600; color: var(--ink); }
+    .result-value.highlight { color: var(--sand); }
+    .safe-harbour {
+      margin-top: var(--space-3); padding: var(--space-3); border-radius: 8px;
+      font-size: 0.85rem; display: flex; align-items: center; gap: var(--space-2);
+    }
+    .safe-harbour.pass { background: rgba(122, 158, 126, 0.15); border: 1px solid rgba(122, 158, 126, 0.3); color: var(--sage); }
+    .safe-harbour.fail { background: rgba(200, 92, 60, 0.15); border: 1px solid rgba(200, 92, 60, 0.3); color: var(--terracotta); }
+
+    /* Features */
+    .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: var(--space-4); }
+    .feature-card {
+      background: var(--charcoal-elevated); border: 1px solid rgba(232, 213, 183, 0.1);
+      border-radius: var(--radius); padding: var(--space-5);
+      transition: all 0.3s ease;
+    }
+    .feature-card:hover {
+      border-color: var(--sand); transform: translateY(-4px); box-shadow: var(--shadow);
+    }
+    .feature-icon {
+      width: 48px; height: 48px; background: rgba(232, 213, 183, 0.15);
+      border-radius: 10px; display: flex; align-items: center; justify-content: center;
+      margin-bottom: var(--space-3); color: var(--sand);
+    }
+    .feature-card h3 { font-family: var(--font-heading); font-size: 1.1rem; font-weight: 600; margin-bottom: var(--space-2); }
+    .feature-card p { color: var(--ink-muted); font-size: 0.95rem; line-height: 1.6; }
+
+    /* Included */
+    .included { background: var(--charcoal-elevated); border-top: 1px solid rgba(232, 213, 183, 0.1); border-bottom: 1px solid rgba(232, 213, 183, 0.1); }
+    .included-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: var(--space-4); }
+    .included-card {
+      background: var(--charcoal); border: 1px solid rgba(232, 213, 183, 0.1);
+      border-radius: var(--radius); padding: var(--space-5); display: flex; flex-direction: column;
+    }
+    .included-card h3 { font-family: var(--font-heading); font-size: 1rem; font-weight: 600; margin-bottom: var(--space-3); display: flex; align-items: center; gap: var(--space-2); }
+    .included-card ul { list-style: none; display: flex; flex-direction: column; gap: var(--space-2); }
+    .included-card li {
+      display: flex; align-items: center; gap: var(--space-2); font-size: 0.9rem; color: var(--ink-muted);
+    }
+    .included-card li::before {
+      content: ""; width: 18px; height: 18px; display: flex; align-items: center; justify-content: center;
+      background: rgba(232, 213, 183, 0.15); border-radius: 4px;
+      color: var(--sand); font-weight: 700; font-size: 0.75rem;
+    }
+
+    /* Testimonial */
+    .testimonial { text-align: center; }
+    .testimonial-card {
+      max-width: 700px; margin: 0 auto; background: var(--charcoal-elevated);
+      border: 1px solid rgba(232, 213, 183, 0.15); border-radius: var(--radius); padding: var(--space-6);
+    }
+    .testimonial-text { font-size: 1.15rem; line-height: 1.7; color: var(--ink); margin-bottom: var(--space-4); font-style: italic; font-family: var(--font-heading); }
+    .testimonial-author { display: flex; align-items: center; justify-content: center; gap: var(--space-3); }
+    .testimonial-avatar {
+      width: 48px; height: 48px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--sand), var(--sand-dark));
+      display: flex; align-items: center; justify-content: center;
+      color: var(--charcoal); font-family: var(--font-heading); font-weight: 700; font-size: 1.1rem;
+    }
+    .testimonial-name { font-weight: 600; }
+    .testimonial-role { color: var(--ink-muted); font-size: 0.9rem; }
+
+    /* Pricing */
+    .pricing-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: var(--space-4); max-width: 900px; margin: 0 auto; }
+    .pricing-card {
+      background: var(--charcoal-elevated); border: 1px solid rgba(232, 213, 183, 0.1);
+      border-radius: var(--radius); padding: var(--space-6); display: flex; flex-direction: column; position: relative;
+    }
+    .pricing-card.popular { border-color: var(--sand); box-shadow: 0 0 0 1px var(--sand), var(--shadow); }
+    .popular-badge {
+      position: absolute; top: -12px; left: 50%; transform: translateX(-50%);
+      background: linear-gradient(135deg, var(--sand), var(--sand-dark)); color: var(--charcoal);
+      padding: 4px 14px; border-radius: 999px; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.05em;
+    }
+    .pricing-name { font-family: var(--font-heading); font-size: 1.1rem; font-weight: 600; margin-bottom: var(--space-1); }
+    .pricing-price { font-family: var(--font-mono); font-size: 3.5rem; font-weight: 700; color: var(--ink); margin-bottom: var(--space-1); }
+    .pricing-price span { font-size: 1rem; font-weight: 400; color: var(--ink-muted); }
+    .pricing-period { color: var(--ink-muted); font-size: 0.9rem; margin-bottom: var(--space-5); }
+    .pricing-card ul { list-style: none; display: flex; flex-direction: column; gap: var(--space-3); flex: 1; margin-bottom: var(--space-5); }
+    .pricing-card li { display: flex; align-items: flex-start; gap: var(--space-2); font-size: 0.95rem; color: var(--ink-muted); }
+    .pricing-card li::before { content: ""; width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; background: rgba(232, 213, 183, 0.15); border-radius: 4px; color: var(--sand); font-weight: 700; font-size: 0.7rem; flex-shrink: 0; margin-top: 2px; }
+    .pricing-btn { width: 100%; }
+
+    /* FAQ */
+    .faq-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: var(--space-4); max-width: 900px; margin: 0 auto; }
+    .faq-item { background: var(--charcoal-elevated); border: 1px solid rgba(232, 213, 183, 0.1); border-radius: var(--radius); overflow: hidden; }
+    .faq-question {
+      width: 100%; text-align: left; padding: var(--space-4) var(--space-5);
+      background: transparent; border: none; color: var(--ink); font-family: var(--font-body);
+      font-size: 1rem; font-weight: 600; cursor: pointer;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .faq-question:hover { background: rgba(232, 213, 183, 0.05); }
+    .faq-answer { padding: 0 var(--space-5) var(--space-4); color: var(--ink-muted); line-height: 1.7; display: none; }
+    .faq-item.open .faq-answer { display: block; }
+    .faq-icon { transition: transform 0.2s; flex-shrink: 0; margin-left: var(--space-3); color: var(--sand); }
+    .faq-item.open .faq-icon { transform: rotate(180deg); }
+
+    /* Footer */
+    footer {
+      padding: var(--space-7) 0 var(--space-5); border-top: 1px solid rgba(232, 213, 183, 0.1);
+      background: var(--charcoal-elevated);
+    }
+    .footer-grid { display: grid; grid-template-columns: 2fr repeat(3, 1fr); gap: var(--space-6); margin-bottom: var(--space-6); }
+    @media (max-width: 768px) { .footer-grid { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 480px) { .footer-grid { grid-template-columns: 1fr; } }
+    .footer-brand p { color: var(--ink-muted); font-size: 0.9rem; margin-top: var(--space-3); max-width: 280px; }
+    .footer-col h4 { font-size: 0.75rem; font-weight: 600; color: var(--ink-muted); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: var(--space-3); }
+    .footer-col a { display: block; color: var(--ink); margin-bottom: var(--space-2); font-size: 0.9rem; transition: color 0.2s; }
+    .footer-col a:hover { color: var(--sand); text-decoration: none; }
+    .footer-bottom {
+      display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center;
+      padding-top: var(--space-4); border-top: 1px solid rgba(232, 213, 183, 0.1);
+      color: var(--ink-muted); font-size: 0.8rem;
+    }
+
+    /* Reduced motion */
+    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; } }
+    :focus-visible { outline: 2px solid var(--sand); outline-offset: 2px; }
+
+    /* Nomad-specific: subtle compass/icon motif */
+    .compass-mark { display: inline-block; width: 1.2em; height: 1.2em; vertical-align: -0.15em; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container header-inner">
+      <a href="https://nomadinc.co.za/" class="logo" aria-label="Nomad Inc — Home">
+        <span class="logo-mark">NI</span>
+        <span class="logo-span">Nomad Inc</span>
+      </a>
+      <nav>
+        <a href="https://nomadinc.co.za/#work">Work</a>
+        <a href="https://nomadinc.co.za/#journal">Journal</a>
+        <a href="https://nomadinc.co.za/#gear">Gear</a>
+        <a href="#calculator">SARS Kit</a>
+      </nav>
+      <div class="header-cta">
+        <a href="https://nomadinc.co.za/#contact" class="btn btn-ghost">Contact</a>
+        <a href="#pricing" class="btn btn-primary">Get the Kit</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- Hero -->
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="container">
+        <span class="hero-badge">Updated for 2025/2026 Tax Year</span>
+        <h1 id="hero-title">Stop Guessing <span class="accent">SARS</span>. Start Roaming Free.</h1>
+        <p>The only South African tax & admin kit built for freelancers, digital nomads, and side hustlers. Provisional tax calculator, expense tracker, invoice templates, deadlines calendar — so you can focus on the next gig, not the tax man.</p>
+        <div class="hero-ctas">
+          <a href="#pricing" class="btn btn-primary">Get the Kit — R297</a>
+          <a href="#calculator" class="btn btn-ghost">Try the Calculator</a>
+        </div>
+        <div class="trust-bar">
+          <span class="trust-item"><span class="trust-dot"></span> SA Tax Tables 2025/26</span>
+          <span class="trust-item"><span class="trust-dot"></span> Notion + PDF + ICS</span>
+          <span class="trust-item"><span class="trust-dot"></span> Lifetime Updates</span>
+          <span class="trust-item"><span class="trust-dot"></span> Discord Community</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Calculator -->
+    <section id="calculator" class="calculator-section" aria-labelledby="calc-title">
+      <div class="container">
+        <div class="section-header">
+          <h2 id="calc-title">Provisional Tax Calculator</h2>
+          <p>Enter your estimated annual taxable income. Built on 2025/26 SARS brackets with rebates & medical credits.</p>
+        </div>
+        <div class="calc-grid">
+          <div class="calc-card">
+            <form id="tax-form" novalidate>
+              <div class="form-group">
+                <label for="income">Estimated Annual Taxable Income (ZAR)</label>
+                <input type="number" id="income" name="income" min="0" step="1000" placeholder="e.g. 240000" required autocomplete="off">
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="age">Your Age</label>
+                  <select id="age" name="age">
+                    <option value="30">Under 65</option>
+                    <option value="65">65 – 74</option>
+                    <option value="75">75+</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="dependants">Medical Aid Dependants</label>
+                  <select id="dependants" name="dependants">
+                    <option value="0">0</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3+</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="prior-tax">Prior Year Tax Paid (optional — for safe harbour)</label>
+                <input type="number" id="prior-tax" name="prior_tax" min="0" step="100" placeholder="0" autocomplete="off">
+              </div>
+              <button type="submit" class="btn btn-primary" style="width:100%;">Calculate</button>
+            </form>
+            <div id="results" class="results" style="display:none;" aria-live="polite"></div>
+          </div>
+          <div class="calc-card">
+            <h2>Why This Matters</h2>
+            <div style="color: var(--ink-muted); font-size: 0.95rem; line-height: 1.7;">
+              <p style="margin-bottom: var(--space-3);"><strong>1. You're a provisional taxpayer if</strong> you earn >R23,800/year outside a salary. That's one R2k/month client.</p>
+              <p style="margin-bottom: var(--space-3);"><strong>2. Two payments a year:</strong> August (1st) & February (2nd). Miss them = penalties + interest.</p>
+              <p style="margin-bottom: var(--space-3);"><strong>3. Safe harbour:</strong> Pay 100% of last year's tax = zero penalty risk, even if income doubles.</p>
+              <p style="margin-bottom: var(--space-3);"><strong>4. The kit includes:</strong> Calculator (web + Sheets), Notion expense tracker, invoice templates, ICS calendar, 40+ page guide.</p>
+              <hr style="border-color: rgba(232,213,183,0.15); margin: var(--space-3) 0;">
+              <p style="font-size: 0.8rem;">Estimate only. Verify with SARS eFiling or a registered tax practitioner before paying. The kit includes a "When to hire a pro" decision guide.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Features -->
+    <section id="features" class="features" aria-labelledby="features-title">
+      <div class="container">
+        <div class="section-header">
+          <h2 id="features-title">Built for How You Move</h2>
+          <p>No corporate templates. Every piece solves a specific SA freelancer pain point — load-shedding, VAT thresholds, medical credits, client invoicing.</p>
+        </div>
+        <div class="features-grid">
+          <article class="feature-card">
+            <div class="feature-icon" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/></svg></div>
+            <h3>Provisional Tax Calculator</h3>
+            <p>Interactive web calculator + Excel/Google Sheets. Handles brackets, rebates, medical credits, safe harbour logic for both August & February payments.</p>
+          </article>
+          <article class="feature-card">
+            <div class="feature-icon" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg></div>
+            <h3>Expense Categories for Nomads</h3>
+            <p>SARS-ready categories: gear, software, co-working, travel, marketing, home office, insurance, pro fees. Each with deductibility % and receipt rules.</p>
+          </article>
+          <article class="feature-card">
+            <div class="feature-icon" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div>
+            <h3>Deadlines Calendar (ICS + Google)</h3>
+            <p>Every SARS date: provisional 1 & 2, annual return, PAYE, VAT, UIF. Pre-loaded ICS imports in 10 seconds. Auto-updates annually.</p>
+          </article>
+          <article class="feature-card">
+            <div class="feature-icon" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
+            <h3>Invoice & Quote Templates</h3>
+            <p>Compliant SA invoices (VAT + non-VAT), quotes, statements. Google Docs, Notion, Excel, PDF. Deposit terms, late fees, POE requirements included.</p>
+          </article>
+          <article class="feature-card">
+            <div class="feature-icon" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></div>
+            <h3>Load-Shedding Aware Planning</h3>
+            <p>Notion dashboard with ESKOM schedule sync, low-energy task menu, battery backup checklist, offline work protocols. Stay productive when the grid fails.</p>
+          </article>
+          <article class="feature-card">
+            <div class="feature-icon" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+            <h3>Medical Aid & UIF Guide</h3>
+            <p>Section 6A/6B deductions, medical tax credits, UIF for freelancers hiring assistants, disability claims, maternity — all in plain English with worked examples.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- What's Included -->
+    <section id="included" class="included" aria-labelledby="included-title">
+      <div class="container">
+        <div class="section-header">
+          <h2 id="included-title">Three Formats. One Kit. Your Workflow.</h2>
+          <p>Notion for daily ops. PDF for deep study. Sheets for modelling. Use what fits.</p>
+        </div>
+        <div class="included-grid">
+          <article class="included-card">
+            <h3>🗺️ Notion Workspace</h3>
+            <ul>
+              <li>Tax calculator database</li>
+              <li>Expense tracker with categories</li>
+              <li>Invoice & quote generators</li>
+              <li>Deadlines calendar view</li>
+              <li>Client & project dashboard</li>
+              <li>Document vault (receipts, contracts)</li>
+              <li>Load-shedding planner</li>
+            </ul>
+          </article>
+          <article class="included-card">
+            <h3>📜 PDF Guide (50+ Pages)</h3>
+            <ul>
+              <li>SARS registration walkthrough</li>
+              <li>Provisional tax deep dive</li>
+              <li>Expense deduction master list</li>
+              <li>Home office calculation</li>
+              <li>VAT registration decision tree</li>
+              <li>Medical credits & UIF guide</li>
+              <li>Monthly/quarterly/annual routines</li>
+            </ul>
+          </article>
+          <article class="included-card">
+            <h3>📊 Sheets & Calendar</h3>
+            <ul>
+              <li>ICS deadlines calendar</li>
+              <li>Google Sheets tax calculator</li>
+              <li>Excel expense tracker</li>
+              <li>Income projection model</li>
+              <li>VAT threshold tracker</li>
+              <li>Annual update checklist</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Testimonial -->
+    <section class="testimonial" aria-labelledby="testimonial-title">
+      <div class="container">
+        <article class="testimonial-card">
+          <p class="testimonial-text">"Finally a tax guide that doesn't assume I'm a corporation. The provisional calculator saved me R3,000 in penalties last year. The Notion expense tracker is now my daily driver — works from Joburg, Cape Town, or a café in Bali."</p>
+          <div class="testimonial-author">
+            <div class="testimonial-avatar">K</div>
+            <div>
+              <div class="testimonial-name">Kamohelo M.</div>
+              <div class="testimonial-role">Freelance Designer, Cape Town → Lisbon</div>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- Pricing -->
+    <section id="pricing" class="pricing" aria-labelledby="pricing-title">
+      <div class="container">
+        <div class="section-header">
+          <h2 id="pricing-title">Simple Pricing</h2>
+          <p>One-time payment. Lifetime updates. 30-day money-back guarantee.</p>
+        </div>
+        <div class="pricing-cards">
+          <article class="pricing-card">
+            <h3 class="pricing-name">Essential Kit</h3>
+            <div class="pricing-price">R197<span>/once</span></div>
+            <div class="pricing-period">Lifetime access & updates</div>
+            <ul>
+              <li>Provisional tax calculator (web + Sheets)</li>
+              <li>Expense category guide (PDF)</li>
+              <li>Invoice & quote templates</li>
+              <li>Deadlines ICS calendar</li>
+              <li>Medical aid & UIF quick reference</li>
+            </ul>
+            <a href="https://gumroad.com/l/nomad-sars-essential" class="btn btn-primary pricing-btn" target="_blank" rel="noopener">Get Essential</a>
+          </article>
+          <article class="pricing-card popular">
+            <span class="popular-badge">Most Popular</span>
+            <h3 class="pricing-name">Complete Kit</h3>
+            <div class="pricing-price">R297<span>/once</span></div>
+            <div class="pricing-period">Lifetime access & updates</div>
+            <ul>
+              <li>Everything in Essential</li>
+              <li>Full Notion workspace (duplicate link)</li>
+              <li>Complete 50+ page PDF guide</li>
+              <li>Load-shedding planning dashboard</li>
+              <li>Income projection model (Excel)</li>
+              <li>VAT registration threshold tracker</li>
+              <li>Annual tax table updates (lifetime)</li>
+              <li>Private Discord community access</li>
+            </ul>
+            <a href="https://gumroad.com/l/nomad-sars-complete" class="btn btn-primary pricing-btn" target="_blank" rel="noopener">Get Complete Kit</a>
+          </article>
+          <article class="pricing-card">
+            <h3 class="pricing-name">Pro Bundle</h3>
+            <div class="pricing-price">R497<span>/once</span></div>
+            <div class="pricing-period">Lifetime access & updates</div>
+            <ul>
+              <li>Everything in Complete</li>
+              <li>1-hour 1-on-1 tax setup call</li>
+              <li>Custom invoice branding</li>
+              <li>Quarterly check-in reminders</li>
+              <li>Priority Discord support</li>
+              <li>Early access to new templates</li>
+            </ul>
+            <a href="https://gumroad.com/l/nomad-sars-pro" class="btn btn-ghost pricing-btn" target="_blank" rel="noopener">Get Pro Bundle</a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section id="faq" class="faq" aria-labelledby="faq-title">
+      <div class="container">
+        <div class="section-header">
+          <h2 id="faq-title">Questions Nomads Ask</h2>
+        </div>
+        <div class="faq-grid">
+          <article class="faq-item">
+            <button class="faq-question" aria-expanded="false" aria-controls="faq-1">
+              Is this for the 2025/2026 tax year?
+              <svg class="faq-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div id="faq-1" class="faq-answer">
+              Yes. All tax brackets, rebates, and medical credits are current for the 2025/2026 tax year (1 March 2025 – 28 February 2026). You get lifetime updates when new tables are published each February.
+            </div>
+          </article>
+          <article class="faq-item">
+            <button class="faq-question" aria-expanded="false" aria-controls="faq-2">
+              Do I need to be a registered provisional taxpayer?
+              <svg class="faq-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div id="faq-2" class="faq-answer">
+              If you earn income outside of a salary (freelance, rental, interest > R23,800, etc.), SARS requires you to register as a provisional taxpayer. The kit includes the registration walkthrough and tells you exactly when you cross the threshold.
+            </div>
+          </article>
+          <article class="faq-item">
+            <button class="faq-question" aria-expanded="false" aria-controls="faq-3">
+              What if I work with overseas clients?
+              <svg class="faq-icon" width="20" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div id="faq-3" class="faq-answer">
+              Export services are zero-rated for VAT (0%). The kit includes invoice templates for foreign clients, SARS requirements for zero-rating, and how to handle foreign currency income in your tax return.
+            </div>
+          </article>
+          <article class="faq-item">
+            <button class="faq-question" aria-expanded="false" aria-controls="faq-4">
+              Can I use this if I'm not in Gauteng?
+              <svg class="faq-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div id="faq-4" class="faq-answer">
+              Yes. SARS is national. The only location-specific part is the load-shedding dashboard (ESKOM stages are national, municipal schedules differ — the template lets you plug in your municipality). Everything else applies everywhere in SA.
+            </div>
+          </article>
+          <article class="faq-item">
+            <button class="faq-question" aria-expanded="false" aria-controls="faq-5">
+              What format are the templates in?
+              <svg class="faq-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div id="faq-5" class="faq-answer">
+              Notion (duplicate link), Google Docs/Sheets (make a copy), Excel (.xlsx), PDF (fillable), and ICS (calendar). You get all formats — use what you prefer, wherever you're working from.
+            </div>
+          </article>
+          <article class="faq-item">
+            <button class="faq-question" aria-expanded="false" aria-controls="faq-6">
+              What if SARS changes the rules mid-year?
+              <svg class="faq-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div id="faq-6" class="faq-answer">
+              You get free updates for life. When budget speech drops (usually Feb), I update the calculator, tables, and Notion workspace within a week. You'll get an email + Discord notification with a changelog.
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="https://nomadinc.co.za/" class="logo" style="margin-bottom: var(--space-2);">
+            <span class="logo-mark">NI</span>
+            <span class="logo-span">Nomad Inc</span>
+          </a>
+          <p>Built by a Pretoria photographer & Health Sciences student who got tired of guessing SARS. Now you don't have to. Roam free.</p>
+        </div>
+        <div class="footer-col">
+          <h4>Nomad Inc</h4>
+          <a href="https://nomadinc.co.za/#work">Work</a>
+          <a href="https://nomadinc.co.za/#journal">Journal</a>
+          <a href="https://nomadinc.co.za/#gear">Gear</a>
+          <a href="https://nomadinc.co.za/#contact">Contact</a>
+        </div>
+        <div class="footer-col">
+          <h4>SARS Kit</h4>
+          <a href="#features">Features</a>
+          <a href="#included">What's Inside</a>
+          <a href="#pricing">Pricing</a>
+          <a href="#faq">FAQ</a>
+        </div>
+        <div class="footer-col">
+          <h4>Legal</h4>
+          <a href="https://nomadinc.co.za/privacy">Privacy Policy</a>
+          <a href="https://nomadinc.co.za/terms">Terms of Service</a>
+          <a href="https://nomadinc.co.za/refund">Refund Policy</a>
+          <a href="https://nomadinc.co.za/disclaimer">Disclaimer</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2025 Nomad Inc. Not a registered tax practitioner. Always verify with SARS or a professional.</p>
+        <p>Made in Pretoria 🇿🇦</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Tax Calculator Logic (2025/2026) — same as before
+    const BRACKETS = [
+      { min: 0, max: 237100, rate: 0.18, base: 0 },
+      { min: 237101, max: 370500, rate: 0.26, base: 42678 },
+      { min: 370501, max: 512800, rate: 0.31, base: 77362 },
+      { min: 512801, max: 673000, rate: 0.36, base: 121475 },
+      { min: 673001, max: 857900, rate: 0.39, base: 179147 },
+      { min: 857901, max: 1817000, rate: 0.41, base: 251258 },
+      { min: 1817001, max: Infinity, rate: 0.45, base: 644489 },
+    ];
+    const REBATES = { primary: 17235, secondary: 9444, tertiary: 3145 };
+    const MED_CREDITS = { self: 364, first: 364, additional: 246 };
+
+    function calcTax(taxable, age, dependants) {
+      let tax = 0;
+      for (const b of BRACKETS) {
+        if (taxable > b.min) {
+          const inBracket = Math.min(taxable, b.max) - b.min;
+          tax = b.base + inBracket * b.rate;
+          break;
+        }
+      }
+      let rebate = REBATES.primary;
+      if (age >= 65) rebate += REBATES.secondary;
+      if (age >= 75) rebate += REBATES.tertiary;
+      tax = Math.max(0, tax - rebate);
+      let med = MED_CREDITS.self;
+      if (dependants >= 1) med += MED_CREDITS.first;
+      if (dependants >= 2) med += MED_CREDITS.additional * (dependants - 1);
+      tax = Math.max(0, tax - med * 12);
+      return Math.round(tax * 100) / 100;
+    }
+
+    function provisionalPayments(annualTax, priorTax) {
+      if (priorTax && priorTax > 0) {
+        return [Math.round(priorTax / 2 * 100) / 100, Math.round(priorTax / 2 * 100) / 100];
+      }
+      return [Math.round(annualTax * 0.5 * 100) / 100, Math.round(annualTax * 0.5 * 100) / 100];
+    }
+
+    function safeHarbour(paid, actual, prior) {
+      if (prior && prior > 0) return paid >= prior;
+      return paid >= actual * 0.9;
+    }
+
+    function fmt(n) {
+      return new Intl.NumberFormat('en-ZA', { style: 'currency', currency: 'ZAR', minimumFractionDigits: 0, maximumFractionDigits: 0 }).format(n);
+    }
+
+    const form = document.getElementById('tax-form');
+    const resultsDiv = document.getElementById('results');
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const income = parseFloat(form.income.value) || 0;
+      const age = parseInt(form.age.value) || 30;
+      const dependants = parseInt(form.dependants.value) || 0;
+      const priorTax = parseFloat(form.prior_tax.value) || 0;
+
+      if (income <= 0) return;
+
+      const annual = calcTax(income, age, dependants);
+      const [p1, p2] = provisionalPayments(annual, priorTax);
+      const totalPaid = p1 + p2;
+      const safe = safeHarbour(totalPaid, annual, priorTax);
+
+      resultsDiv.style.display = 'block';
+      resultsDiv.innerHTML = `
+        <div class="result-row"><span class="result-label">Annual Tax Liability</span><span class="result-value highlight">${fmt(annual)}</span></div>
+        <div class="result-row"><span class="result-label">1st Provisional (August)</span><span class="result-value">${fmt(p1)}</span></div>
+        <div class="result-row"><span class="result-label">2nd Provisional (February)</span><span class="result-value">${fmt(p2)}</span></div>
+        <div class="result-row"><span class="result-label">Total Provisional Payments</span><span class="result-value highlight">${fmt(totalPaid)}</span></div>
+        <div class="safe-harbour ${safe ? 'pass' : 'fail'}">
+          <span class="safe-harbour-icon">${safe ? '✓' : '⚠'}</span>
+          <span>${safe ? 'Safe harbour met — no underpayment penalty risk' : 'Below safe harbour — consider increasing payments or consult a tax pro'}</span>
+        </div>
+        <p style="margin-top: var(--space-3); font-size: 0.8rem; color: var(--ink-muted);">
+          Based on 2025/26 tax tables. Estimate only — verify with SARS eFiling or a registered tax practitioner before paying.
+        </p>
+      `;
+      resultsDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    });
+
+    // FAQ accordion
+    document.querySelectorAll('.faq-question').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const item = btn.closest('.faq-item');
+        const open = item.classList.toggle('open');
+        btn.setAttribute('aria-expanded', open);
+      });
+    });
+
+    // Smooth scroll
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', e => {
+        const target = document.querySelector(a.getAttribute('href'));
+        if (target) {
+          e.preventDefault();
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          history.pushState(null, '', a.getAttribute('href'));
+        }
+      });
+    });
+  </script>
+</body>
+</html>

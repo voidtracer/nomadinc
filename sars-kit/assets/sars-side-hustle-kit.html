@@ -1,0 +1,952 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SARS Side Hustle Kit — Tax, Admin & Compliance for SA Freelancers & Students</title>
+  <meta name="description" content="Stop guessing SARS. Provisional tax calculator, expense tracker, invoice templates, deadlines calendar — built for South African freelancers, students, and side hustlers.">
+  <style>
+    :root {
+      --bg: #0f0f0f;
+      --bg-elevated: #181818;
+      --fg: #f5f5f5;
+      --fg-muted: #a3a3a3;
+      --accent: #00d4aa;
+      --accent-hover: #00e8bb;
+      --accent-dim: rgba(0, 212, 170, 0.15);
+      --border: #2a2a2a;
+      --border-hover: #3d3d3d;
+      --card: #141414;
+      --danger: #ff5c5c;
+      --success: #00d4aa;
+      --warning: #ffb800;
+      --font-sans: "IBM Plex Sans", system-ui, -apple-system, sans-serif;
+      --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+      --radius: 12px;
+      --radius-sm: 8px;
+      --shadow: 0 4px 24px rgba(0,0,0,0.4);
+      --shadow-hover: 0 8px 32px rgba(0,0,0,0.5);
+      --space-1: 4px;
+      --space-2: 8px;
+      --space-3: 16px;
+      --space-4: 24px;
+      --space-5: 32px;
+      --space-6: 48px;
+      --space-7: 64px;
+      --space-8: 96px;
+    }
+
+    @media (prefers-color-scheme: light) {
+      :root {
+        --bg: #fafafa;
+        --bg-elevated: #ffffff;
+        --fg: #1a1a1a;
+        --fg-muted: #525252;
+        --accent: #00a88a;
+        --accent-hover: #00967a;
+        --accent-dim: rgba(0, 168, 138, 0.12);
+        --border: #e5e5e5;
+        --border-hover: #d4d4d4;
+        --card: #ffffff;
+        --shadow: 0 4px 24px rgba(0,0,0,0.08);
+        --shadow-hover: 0 8px 32px rgba(0,0,0,0.12);
+      }
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-sans);
+      background: var(--bg);
+      color: var(--fg);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    .container {
+      width: 100%;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 var(--space-4);
+    }
+
+    /* Header */
+    header {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      background: rgba(15, 15, 15, 0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    @media (prefers-color-scheme: light) {
+      header { background: rgba(250, 250, 250, 0.85); }
+    }
+    .header-inner {
+      display: flex; align-items: center; justify-content: space-between;
+      height: 64px;
+    }
+    .logo {
+      font-family: var(--font-mono);
+      font-weight: 600;
+      font-size: 1.1rem;
+      color: var(--fg);
+      display: flex; align-items: center; gap: var(--space-2);
+    }
+    .logo-mark {
+      width: 28px; height: 28px;
+      background: linear-gradient(135deg, var(--accent), #00967a);
+      border-radius: 6px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 12px; font-weight: 700; color: #0f0f0f;
+    }
+    nav { display: none; gap: var(--space-5); }
+    nav a { color: var(--fg-muted); font-size: 0.9rem; font-weight: 500; }
+    nav a:hover { color: var(--fg); text-decoration: none; }
+    .header-cta {
+      display: flex; align-items: center; gap: var(--space-3);
+    }
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: var(--space-2);
+      padding: 10px 20px;
+      border-radius: var(--radius-sm);
+      font-family: var(--font-sans);
+      font-weight: 600;
+      font-size: 0.9rem;
+      border: none;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .btn-primary {
+      background: var(--accent);
+      color: #0f0f0f;
+    }
+    .btn-primary:hover {
+      background: var(--accent-hover);
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-hover);
+    }
+    .btn-ghost {
+      background: transparent;
+      color: var(--fg);
+      border: 1px solid var(--border);
+    }
+    .btn-ghost:hover {
+      border-color: var(--border-hover);
+      background: var(--bg-elevated);
+    }
+    @media (min-width: 768px) {
+      nav { display: flex; }
+    }
+
+    /* Hero */
+    .hero {
+      padding: calc(64px + var(--space-8)) 0 var(--space-8);
+      text-align: center;
+    }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: var(--space-2);
+      background: var(--accent-dim);
+      color: var(--accent);
+      padding: var(--space-1) var(--space-3);
+      border-radius: 999px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      margin-bottom: var(--space-4);
+      border: 1px solid rgba(0, 212, 170, 0.3);
+    }
+    .hero h1 {
+      font-size: clamp(2.5rem, 5vw, 3.5rem);
+      font-weight: 700;
+      line-height: 1.1;
+      margin-bottom: var(--space-4);
+      letter-spacing: -0.02em;
+    }
+    .hero h1 span { color: var(--accent); }
+    .hero p {
+      font-size: clamp(1.1rem, 2vw, 1.25rem);
+      color: var(--fg-muted);
+      max-width: 680px;
+      margin: 0 auto var(--space-6);
+    }
+    .hero-ctas { display: flex; flex-wrap: wrap; gap: var(--space-3); justify-content: center; }
+    .trust-bar {
+      margin-top: var(--space-8);
+      display: flex; flex-wrap: wrap; gap: var(--space-4); justify-content: center;
+      color: var(--fg-muted); font-size: 0.85rem;
+    }
+    .trust-item { display: flex; align-items: center; gap: var(--space-1); }
+
+    /* Calculator Section */
+    .calculator-section {
+      padding: var(--space-8) 0;
+      background: linear-gradient(180deg, transparent, var(--bg-elevated), transparent);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+    .calculator-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: var(--space-6);
+    }
+    @media (min-width: 900px) {
+      .calculator-grid { grid-template-columns: 1fr 1fr; align-items: start; }
+    }
+    .calc-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: var(--space-5);
+      box-shadow: var(--shadow);
+    }
+    .calc-card h2 {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-bottom: var(--space-4);
+      display: flex; align-items: center; gap: var(--space-2);
+    }
+    .calc-card h2::before {
+      content: ""; width: 4px; height: 24px;
+      background: var(--accent);
+      border-radius: 2px;
+    }
+
+    .form-group { margin-bottom: var(--space-4); }
+    .form-group label {
+      display: block; font-size: 0.85rem; font-weight: 500;
+      color: var(--fg-muted); margin-bottom: var(--space-1);
+    }
+    .form-group input,
+    .form-group select {
+      width: 100%;
+      padding: 12px 14px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      color: var(--fg);
+      font-family: var(--font-sans);
+      font-size: 1rem;
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+    .form-group input:focus,
+    .form-group select:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-dim);
+    }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-3); }
+    @media (max-width: 480px) { .form-row { grid-template-columns: 1fr; } }
+
+    .calc-btn {
+      width: 100%; margin-top: var(--space-2);
+    }
+
+    .results {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: var(--space-4);
+      margin-top: var(--space-4);
+    }
+    .result-row {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: var(--space-2) 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .result-row:last-child { border-bottom: none; }
+    .result-label { color: var(--fg-muted); font-size: 0.9rem; }
+    .result-value { font-family: var(--font-mono); font-size: 1.1rem; font-weight: 600; color: var(--fg); }
+    .result-value.highlight { color: var(--accent); }
+    .result-value.warning { color: var(--warning); }
+    .safe-harbour {
+      margin-top: var(--space-3);
+      padding: var(--space-3);
+      border-radius: var(--radius-sm);
+      font-size: 0.85rem;
+      display: flex; align-items: center; gap: var(--space-2);
+    }
+    .safe-harbour.pass {
+      background: rgba(0, 212, 170, 0.12);
+      border: 1px solid rgba(0, 212, 170, 0.3);
+      color: var(--success);
+    }
+    .safe-harbour.fail {
+      background: rgba(255, 92, 92, 0.12);
+      border: 1px solid rgba(255, 92, 92, 0.3);
+      color: var(--danger);
+    }
+    .safe-harbour-icon { font-size: 1.2rem; }
+
+    /* Features */
+    .features {
+      padding: var(--space-8) 0;
+    }
+    .section-header { text-align: center; margin-bottom: var(--space-7); }
+    .section-header h2 {
+      font-size: clamp(1.75rem, 3vw, 2.25rem);
+      font-weight: 700; margin-bottom: var(--space-3);
+    }
+    .section-header p { color: var(--fg-muted); max-width: 600px; margin: 0 auto; }
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: var(--space-4);
+    }
+    .feature-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: var(--space-5);
+      transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+    }
+    .feature-card:hover {
+      border-color: var(--border-hover);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-hover);
+    }
+    .feature-icon {
+      width: 44px; height: 44px;
+      background: var(--accent-dim);
+      border-radius: var(--radius-sm);
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: var(--space-3);
+      color: var(--accent);
+    }
+    .feature-card h3 { font-size: 1.1rem; font-weight: 600; margin-bottom: var(--space-2); }
+    .feature-card p { color: var(--fg-muted); font-size: 0.95rem; line-height: 1.6; }
+
+    /* What's Included */
+    .included {
+      padding: var(--space-8) 0;
+      background: var(--bg-elevated);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+    .included-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: var(--space-4);
+    }
+    .included-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: var(--space-5);
+      display: flex; flex-direction: column;
+    }
+    .included-card h3 { font-size: 1rem; font-weight: 600; margin-bottom: var(--space-3); display: flex; align-items: center; gap: var(--space-2); }
+    .included-card ul { list-style: none; display: flex; flex-direction: column; gap: var(--space-2); }
+    .included-card li {
+      display: flex; align-items: center; gap: var(--space-2);
+      font-size: 0.9rem; color: var(--fg-muted);
+    }
+    .included-card li::before {
+      content: "✓"; color: var(--accent); font-weight: 700; font-size: 0.8rem;
+      width: 18px; height: 18px; display: flex; align-items: center; justify-content: center;
+      background: var(--accent-dim); border-radius: 4px;
+    }
+
+    /* Testimonial */
+    .testimonial {
+      padding: var(--space-8) 0;
+      text-align: center;
+    }
+    .testimonial-card {
+      max-width: 700px; margin: 0 auto;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: var(--space-6);
+    }
+    .testimonial-text { font-size: 1.1rem; line-height: 1.7; color: var(--fg); margin-bottom: var(--space-4); font-style: italic; }
+    .testimonial-author { display: flex; align-items: center; justify-content: center; gap: var(--space-3); }
+    .testimonial-avatar {
+      width: 44px; height: 44px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), #00967a);
+      display: flex; align-items: center; justify-content: center;
+      color: #0f0f0f; font-weight: 700; font-size: 1rem;
+    }
+    .testimonial-name { font-weight: 600; }
+    .testimonial-role { color: var(--fg-muted); font-size: 0.9rem; }
+
+    /* Pricing */
+    .pricing {
+      padding: var(--space-8) 0;
+    }
+    .pricing-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: var(--space-4);
+      max-width: 900px; margin: 0 auto;
+    }
+    .pricing-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: var(--space-6);
+      display: flex; flex-direction: column;
+      position: relative;
+    }
+    .pricing-card.popular {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 1px var(--accent), var(--shadow);
+    }
+    .popular-badge {
+      position: absolute; top: -12px; left: 50%; transform: translateX(-50%);
+      background: var(--accent); color: #0f0f0f;
+      padding: 4px 12px; border-radius: 999px;
+      font-size: 0.75rem; font-weight: 700;
+    }
+    .pricing-name { font-size: 1.1rem; font-weight: 600; margin-bottom: var(--space-1); }
+    .pricing-price { font-size: 3rem; font-weight: 700; font-family: var(--font-mono); color: var(--fg); margin-bottom: var(--space-1); }
+    .pricing-period { color: var(--fg-muted); font-size: 0.9rem; margin-bottom: var(--space-5); }
+    .pricing-card ul { list-style: none; display: flex; flex-direction: column; gap: var(--space-3); flex: 1; margin-bottom: var(--space-5); }
+    .pricing-card li { display: flex; align-items: flex-start; gap: var(--space-2); font-size: 0.95rem; color: var(--fg-muted); }
+    .pricing-card li::before { content: "✓"; color: var(--accent); font-weight: 700; margin-top: 2px; }
+    .pricing-btn { width: 100%; }
+
+    /* FAQ */
+    .faq { padding: var(--space-8) 0; }
+    .faq-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: var(--space-4);
+      max-width: 900px; margin: 0 auto;
+    }
+    .faq-item {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+    .faq-question {
+      width: 100%; text-align: left;
+      padding: var(--space-4) var(--space-5);
+      background: transparent; border: none;
+      color: var(--fg); font-family: var(--font-sans);
+      font-size: 1rem; font-weight: 600; cursor: pointer;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .faq-question:hover { background: var(--bg); }
+    .faq-answer {
+      padding: 0 var(--space-5) var(--space-4);
+      color: var(--fg-muted); line-height: 1.7;
+      display: none;
+    }
+    .faq-item.open .faq-answer { display: block; }
+    .faq-icon { transition: transform 0.2s; flex-shrink: 0; margin-left: var(--space-3); }
+    .faq-item.open .faq-icon { transform: rotate(180deg); }
+
+    /* Footer */
+    footer {
+      padding: var(--space-7) 0 var(--space-5);
+      border-top: 1px solid var(--border);
+      background: var(--bg-elevated);
+    }
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr repeat(3, 1fr);
+      gap: var(--space-6);
+      margin-bottom: var(--space-6);
+    }
+    @media (max-width: 768px) {
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 480px) {
+      .footer-grid { grid-template-columns: 1fr; }
+    }
+    .footer-brand p { color: var(--fg-muted); font-size: 0.9rem; margin-top: var(--space-3); max-width: 280px; }
+    .footer-col h4 { font-size: 0.85rem; font-weight: 600; color: var(--fg-muted); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: var(--space-3); }
+    .footer-col a { display: block; color: var(--fg); margin-bottom: var(--space-2); font-size: 0.9rem; transition: color 0.15s; }
+    .footer-col a:hover { color: var(--accent); text-decoration: none; }
+    .footer-bottom {
+      display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center;
+      padding-top: var(--space-4); border-top: 1px solid var(--border);
+      color: var(--fg-muted); font-size: 0.85rem;
+    }
+
+    /* Reduced motion */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+    }
+
+    /* Focus visible */
+    :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container header-inner">
+      <a href="#" class="logo">
+        <span class="logo-mark">SHK</span>
+        SARS Side Hustle Kit
+      </a>
+      <nav>
+        <a href="#calculator">Calculator</a>
+        <a href="#features">Features</a>
+        <a href="#included">What's Inside</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#faq">FAQ</a>
+      </nav>
+      <div class="header-cta">
+        <a href="#pricing" class="btn btn-ghost">View Pricing</a>
+        <a href="#pricing" class="btn btn-primary">Get the Kit</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- Hero -->
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="container">
+        <span class="hero-badge">Updated for 2025/2026 Tax Year</span>
+        <h1 id="hero-title">Stop Guessing <span>SARS</span>. Start Filing Right.</h1>
+        <p>The only South African tax & admin kit built for freelancers, students, and side hustlers. Provisional tax calculator, expense categories, invoice templates, medical aid deductions, and a deadlines calendar that actually works.</p>
+        <div class="hero-ctas">
+          <a href="#pricing" class="btn btn-primary">Get the Kit — R297</a>
+          <a href="#calculator" class="btn btn-ghost">Try the Calculator</a>
+        </div>
+        <div class="trust-bar">
+          <span class="trust-item">🇿🇦 SA Tax Tables 2025/26</span>
+          <span class="trust-item">📊 Notion + PDF + ICS</span>
+          <span class="trust-item">🔄 Lifetime Updates</span>
+          <span class="trust-item">💬 Discord Support</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Calculator -->
+    <section id="calculator" class="calculator-section" aria-labelledby="calc-title">
+      <div class="container">
+        <div class="calculator-grid">
+          <div class="calc-card">
+            <h2>Provisional Tax Calculator</h2>
+            <p style="color: var(--fg-muted); margin-bottom: var(--space-4); font-size: 0.9rem;">
+              Enter your estimated annual taxable income. Includes 2025/26 brackets, rebates, and medical tax credits.
+            </p>
+            <form id="tax-form" novalidate>
+              <div class="form-group">
+                <label for="income">Estimated Annual Taxable Income (ZAR)</label>
+                <input type="number" id="income" name="income" min="0" step="1000" placeholder="e.g. 240000" required autocomplete="off">
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="age">Your Age</label>
+                  <select id="age" name="age">
+                    <option value="30">Under 65</option>
+                    <option value="65">65 – 74</option>
+                    <option value="75">75+</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="dependants">Medical Aid Dependants</label>
+                  <select id="dependants" name="dependants">
+                    <option value="0">0</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3+</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="prior-tax">Prior Year Tax Paid (optional — for safe harbour)</label>
+                <input type="number" id="prior-tax" name="prior_tax" min="0" step="100" placeholder="0" autocomplete="off">
+              </div>
+              <button type="submit" class="btn btn-primary calc-btn">Calculate</button>
+            </form>
+            <div id="results" class="results" style="display:none;" aria-live="polite"></div>
+          </div>
+
+          <div class="calc-card">
+            <h2>How It Works</h2>
+            <div style="color: var(--fg-muted); font-size: 0.95rem; line-height: 1.7;">
+              <p style="margin-bottom: var(--space-3);"><strong>1. Enter your numbers</strong> — Freelance income + salary + any other taxable earnings.</p>
+              <p style="margin-bottom: var(--space-3);"><strong>2. Get your annual tax</strong> — Calculated on 2025/26 SARS brackets with all rebates and medical credits applied.</p>
+              <p style="margin-bottom: var(--space-3);"><strong>3. See your two payments</strong> — 1st provisional (Aug) and 2nd provisional (Feb) amounts, plus safe harbour check.</p>
+              <p style="margin-bottom: var(--space-3);"><strong>4. Avoid penalties</strong> — The kit includes the full deadlines calendar (ICS) so you never miss a date.</p>
+              <hr style="border-color: var(--border); margin: var(--space-3) 0;">
+              <p style="font-size: 0.85rem;">
+                <strong>Disclaimer:</strong> This calculator uses 2025/26 tax tables for estimation only. Always verify with a registered tax practitioner or SARS eFiling before paying. The kit includes a "When to hire a pro" decision guide.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Features -->
+    <section id="features" class="features" aria-labelledby="features-title">
+      <div class="container">
+        <div class="section-header">
+          <h2 id="features-title">Built for How You Actually Work</h2>
+          <p>No generic templates. Every piece solves a specific SA pain point I hit myself as a photographer + student in Pretoria.</p>
+        </div>
+        <div class="features-grid">
+          <article class="feature-card">
+            <div class="feature-icon" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M6 8h12M10 12h8M10 16h5"/></svg></div>
+            <h3>Provisional Tax Calculator</h3>
+            <p>Interactive web calculator + Excel/Google Sheets version. Handles brackets, rebates, medical credits, and safe harbour logic for both August and February payments.</p>
+          </article>
+          <article class="feature-card">
+            <div class="feature-icon" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/></svg></div>
+            <h3>Expense Categories for Photographers & Students</h3>
+            <p>SARS-ready categories: gear, software, studio rent, travel, marketing, education, home office. Each with deductibility rules and receipt requirements.</p>
+          </article>
+          <article class="feature-card">
+            <div class="feature-icon" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg></div>
+            <h3>Deadlines Calendar (ICS + Google Calendar)</h3>
+            <p>Every SARS date: provisional 1 & 2, annual return, PAYE, VAT, UIF. Pre-loaded ICS file imports in 10 seconds. Auto-updates annually.</p>
+          </article>
+          <article class="feature-card">
+            <div class="feature-icon" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
+            <h3>Invoice & Quote Templates</h3>
+            <p>Compliant SA invoices (VAT + non-VAT), quotes, statements. Google Docs, Notion, Excel, PDF. Includes deposit terms, late fees, POE requirements.</p>
+          </article>
+          <article class="feature-card">
+            <div class="feature-icon" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div>
+            <h3>Load-Shedding Aware Planning</h3>
+            <p>Notion dashboard with ESKOM schedule sync (via API), low-energy task menu, battery backup checklist, and "offline mode" work protocols.</p>
+          </article>
+          <article class="feature-card">
+            <div class="feature-icon" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+            <h3>Medical Aid & UIF Guide</h3>
+            <p>Section 6A/6B deductions, medical tax credits, UIF contributions for freelancers, disability claims, maternity — all in plain English with examples.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- What's Included -->
+    <section id="included" class="included" aria-labelledby="included-title">
+      <div class="container">
+        <div class="section-header">
+          <h2 id="included-title">What You Get</h2>
+          <p>Three formats. One price. Use what fits your workflow.</p>
+        </div>
+        <div class="included-grid">
+          <article class="included-card">
+            <h3>📋 Notion Workspace</h3>
+            <ul>
+              <li>Tax calculator database</li>
+              <li>Expense tracker with categories</li>
+              <li>Invoice & quote templates</li>
+              <li>Deadlines calendar view</li>
+              <li>Client & project dashboard</li>
+              <li>Document vault (receipts, contracts)</li>
+            </ul>
+          </article>
+          <article class="included-card">
+            <h3>📄 PDF Guides & Templates</h3>
+            <ul>
+              <li>SARS Side Hustle Guide (40+ pages)</li>
+              <li>Provisional tax walkthrough</li>
+              <li>Expense deduction checklist</li>
+              <li>Invoice/quote templates (fillable)</li>
+              <li>Medical aid deduction guide</li>
+              <li>When to hire a tax pro</li>
+            </ul>
+          </article>
+          <article class="included-card">
+            <h3>📅 Calendar & Spreadsheets</h3>
+            <ul>
+              <li>ICS deadlines calendar</li>
+              <li>Google Sheets tax calculator</li>
+              <li>Excel expense tracker</li>
+              <li>Income projection model</li>
+              <li>VAT registration threshold tracker</li>
+              <li>Annual update checklist</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Testimonial -->
+    <section class="testimonial" aria-labelledby="testimonial-title">
+      <div class="container">
+        <article class="testimonial-card">
+          <p class="testimonial-text">"Finally a tax guide that doesn't assume I'm a corporation. The provisional calculator saved me R3,000 in penalties last year. The Notion expense tracker is now my daily driver."</p>
+          <div class="testimonial-author">
+            <div class="testimonial-avatar">K</div>
+            <div>
+              <div class="testimonial-name">Kamohelo M.</div>
+              <div class="testimonial-role">Freelance Designer, Cape Town</div>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- Pricing -->
+    <section id="pricing" class="pricing" aria-labelledby="pricing-title">
+      <div class="container">
+        <div class="section-header">
+          <h2 id="pricing-title">Simple Pricing</h2>
+          <p>One-time payment. Lifetime updates. 30-day money-back guarantee.</p>
+        </div>
+        <div class="pricing-cards">
+          <article class="pricing-card">
+            <h3 class="pricing-name">Essential Kit</h3>
+            <div class="pricing-price">R197</div>
+            <div class="pricing-period">Once off</div>
+            <ul>
+              <li>Provisional tax calculator (web + Sheets)</li>
+              <li>Expense category guide (PDF)</li>
+              <li>Invoice & quote templates</li>
+              <li>Deadlines ICS calendar</li>
+              <li>Medical aid & UIF quick reference</li>
+            </ul>
+            <a href="#checkout" class="btn btn-primary pricing-btn">Get Essential</a>
+          </article>
+          <article class="pricing-card popular">
+            <span class="popular-badge">Most Popular</span>
+            <h3 class="pricing-name">Complete Kit</h3>
+            <div class="pricing-price">R297</div>
+            <div class="pricing-period">Once off</div>
+            <ul>
+              <li>Everything in Essential</li>
+              <li>Full Notion workspace (duplicate link)</li>
+              <li>Complete 40+ page SARS guide</li>
+              <li>Load-shedding planning dashboard</li>
+              <li>Income projection model (Excel)</li>
+              <li>VAT registration threshold tracker</li>
+              <li>Annual tax table updates (lifetime)</li>
+              <li>Private Discord community access</li>
+            </ul>
+            <a href="#checkout" class="btn btn-primary pricing-btn">Get Complete Kit</a>
+          </article>
+          <article class="pricing-card">
+            <h3 class="pricing-name">Pro Bundle</h3>
+            <div class="pricing-price">R497</div>
+            <div class="pricing-period">Once off</div>
+            <ul>
+              <li>Everything in Complete</li>
+              <li>1-hour 1-on-1 tax setup call</li>
+              <li>Custom invoice branding</li>
+              <li>Quarterly check-in reminders</li>
+              <li>Priority Discord support</li>
+              <li>Early access to new templates</li>
+            </ul>
+            <a href="#checkout" class="btn btn-ghost pricing-btn">Get Pro Bundle</a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section id="faq" class="faq" aria-labelledby="faq-title">
+      <div class="container">
+        <div class="section-header">
+          <h2 id="faq-title">Common Questions</h2>
+        </div>
+        <div class="faq-grid">
+          <article class="faq-item">
+            <button class="faq-question" aria-expanded="false" aria-controls="faq-1">
+              Is this for the 2025/2026 tax year?
+              <svg class="faq-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div id="faq-1" class="faq-answer">
+              Yes. All tax brackets, rebates, and medical credits are current for the 2025/2026 tax year (1 March 2025 – 28 February 2026). You get lifetime updates when new tables are published each February.
+            </div>
+          </article>
+          <article class="faq-item">
+            <button class="faq-question" aria-expanded="false" aria-controls="faq-2">
+              Do I need to be a registered provisional taxpayer?
+              <svg class="faq-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div id="faq-2" class="faq-answer">
+              If you earn income outside of a salary (freelance, rental, interest > R23,800, etc.), SARS requires you to register as a provisional taxpayer. The kit includes the registration walkthrough and tells you exactly when you cross the threshold.
+            </div>
+          </article>
+          <article class="faq-item">
+            <button class="faq-question" aria-expanded="false" aria-controls="faq-3">
+              What if I'm a student with a part-time job + freelance?
+              <svg class="faq-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div id="faq-3" class="faq-answer">
+              That's exactly who this is for. The calculator handles multiple income sources. The expense guide covers student-specific deductions (textbooks, equipment, internet, home office). The Notion template has a "Student + Side Hustle" preset.
+            </div>
+          </article>
+          <article class="faq-item">
+            <button class="faq-question" aria-expanded="false" aria-controls="faq-4">
+              Can I use this if I'm not in Gauteng?
+              <svg class="faq-icon" width="20" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div id="faq-4" class="faq-answer">
+              Yes. SARS is national. The only location-specific part is the load-shedding dashboard (ESKOM stages are national, municipal schedules differ — the template lets you plug in your municipality). Everything else applies everywhere in SA.
+            </div>
+          </article>
+          <article class="faq-item">
+            <button class="faq-question" aria-expanded="false" aria-controls="faq-5">
+              What format are the templates in?
+              <svg class="faq-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div id="faq-5" class="faq-answer">
+              Notion (duplicate link), Google Docs/Sheets (make a copy), Excel (.xlsx), PDF (fillable), and ICS (calendar). You get all formats — use what you prefer.
+            </div>
+          </article>
+          <article class="faq-item">
+            <button class="faq-question" aria-expanded="false" aria-controls="faq-6">
+              What if SARS changes the rules mid-year?
+              <svg class="faq-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div id="faq-6" class="faq-answer">
+              You get free updates for life. When budget speech drops (usually Feb), I update the calculator, tables, and Notion workspace within a week. You'll get an email + Discord notification with a changelog.
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="logo" style="margin-bottom: var(--space-2);">
+            <span class="logo-mark">SHK</span>
+            SARS Side Hustle Kit
+          </div>
+          <p>Built by a Pretoria photographer & Health Sciences student who got tired of guessing SARS. Now you don't have to.</p>
+        </div>
+        <div class="footer-col">
+          <h4>Product</h4>
+          <a href="#features">Features</a>
+          <a href="#included">What's Inside</a>
+          <a href="#pricing">Pricing</a>
+          <a href="#faq">FAQ</a>
+        </div>
+        <div class="footer-col">
+          <h4>Resources</h4>
+          <a href="#">SARS eFiling Guide</a>
+          <a href="#">Provisional Tax Dates</a>
+          <a href="#">Expense Deduction List</a>
+          <a href="#">Load-Shedding API</a>
+        </div>
+        <div class="footer-col">
+          <h4>Legal</h4>
+          <a href="#">Privacy Policy</a>
+          <a href="#">Terms of Service</a>
+          <a href="#">Refund Policy</a>
+          <a href="#">Disclaimer</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2025 SARS Side Hustle Kit. Not a registered tax practitioner. Always verify with SARS or a professional.</p>
+        <p>Made in Pretoria 🇿🇦</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Tax Calculator Logic (2025/2026)
+    const BRACKETS = [
+      { min: 0, max: 237100, rate: 0.18, base: 0 },
+      { min: 237101, max: 370500, rate: 0.26, base: 42678 },
+      { min: 370501, max: 512800, rate: 0.31, base: 77362 },
+      { min: 512801, max: 673000, rate: 0.36, base: 121475 },
+      { min: 673001, max: 857900, rate: 0.39, base: 179147 },
+      { min: 857901, max: 1817000, rate: 0.41, base: 251258 },
+      { min: 1817001, max: Infinity, rate: 0.45, base: 644489 },
+    ];
+    const REBATES = { primary: 17235, secondary: 9444, tertiary: 3145 };
+    const MED_CREDITS = { self: 364, first: 364, additional: 246 };
+
+    function calcTax(taxable, age, dependants) {
+      let tax = 0;
+      for (const b of BRACKETS) {
+        if (taxable > b.min) {
+          const inBracket = Math.min(taxable, b.max) - b.min;
+          tax = b.base + inBracket * b.rate;
+          break;
+        }
+      }
+      // Rebates
+      let rebate = REBATES.primary;
+      if (age >= 65) rebate += REBATES.secondary;
+      if (age >= 75) rebate += REBATES.tertiary;
+      tax = Math.max(0, tax - rebate);
+      // Medical credits
+      let med = MED_CREDITS.self;
+      if (dependants >= 1) med += MED_CREDITS.first;
+      if (dependants >= 2) med += MED_CREDITS.additional * (dependants - 1);
+      tax = Math.max(0, tax - med * 12);
+      return Math.round(tax * 100) / 100;
+    }
+
+    function provisionalPayments(annualTax, priorTax) {
+      if (priorTax && priorTax > 0) {
+        return [Math.round(priorTax / 2 * 100) / 100, Math.round(priorTax / 2 * 100) / 100];
+      }
+      return [Math.round(annualTax * 0.5 * 100) / 100, Math.round(annualTax * 0.5 * 100) / 100];
+    }
+
+    function safeHarbour(paid, actual, prior) {
+      if (prior && prior > 0) return paid >= prior;
+      return paid >= actual * 0.9;
+    }
+
+    function fmt(n) {
+      return new Intl.NumberFormat('en-ZA', { style: 'currency', currency: 'ZAR', minimumFractionDigits: 0, maximumFractionDigits: 0 }).format(n);
+    }
+
+    const form = document.getElementById('tax-form');
+    const resultsDiv = document.getElementById('results');
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const income = parseFloat(form.income.value) || 0;
+      const age = parseInt(form.age.value) || 30;
+      const dependants = parseInt(form.dependants.value) || 0;
+      const priorTax = parseFloat(form.prior_tax.value) || 0;
+
+      if (income <= 0) return;
+
+      const annual = calcTax(income, age, dependants);
+      const [p1, p2] = provisionalPayments(annual, priorTax);
+      const totalPaid = p1 + p2;
+      const safe = safeHarbour(totalPaid, annual, priorTax);
+
+      resultsDiv.style.display = 'block';
+      resultsDiv.innerHTML = `
+        <div class="result-row"><span class="result-label">Annual Tax Liability</span><span class="result-value highlight">${fmt(annual)}</span></div>
+        <div class="result-row"><span class="result-label">1st Provisional (August)</span><span class="result-value">${fmt(p1)}</span></div>
+        <div class="result-row"><span class="result-label">2nd Provisional (February)</span><span class="result-value">${fmt(p2)}</span></div>
+        <div class="result-row"><span class="result-label">Total Provisional Payments</span><span class="result-value highlight">${fmt(totalPaid)}</span></div>
+        <div class="safe-harbour ${safe ? 'pass' : 'fail'}">
+          <span class="safe-harbour-icon">${safe ? '✓' : '⚠'}</span>
+          <span>${safe ? 'Safe harbour met — no underpayment penalty risk' : 'Below safe harbour — consider increasing payments or consult a tax pro'}</span>
+        </div>
+        <p style="margin-top: var(--space-3); font-size: 0.8rem; color: var(--fg-muted);">
+          Based on 2025/26 tax tables. Estimate only — verify with SARS eFiling or a registered tax practitioner before paying.
+        </p>
+      `;
+      resultsDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    });
+
+    // FAQ accordion
+    document.querySelectorAll('.faq-question').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const item = btn.closest('.faq-item');
+        const open = item.classList.toggle('open');
+        btn.setAttribute('aria-expanded', open);
+      });
+    });
+
+    // Smooth scroll for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', e => {
+        const target = document.querySelector(a.getAttribute('href'));
+        if (target) {
+          e.preventDefault();
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          history.pushState(null, '', a.getAttribute('href'));
+        }
+      });
+    });
+  </script>
+</body>
+</html>
