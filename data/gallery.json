@@ -3,7 +3,7 @@
     "src": "assets/images/gallery/IMG_7863.jpg",
     "alt": "Couple walking through flowers, moody film tones",
     "title": "Flower Fall",
-    "category": "Wedding",
+    "category": "weddings",
     "description": "Large wedding with many guests, shot on Canon EOS R10.",
     "width": 1200,
     "height": 1800
@@ -12,8 +12,8 @@
     "src": "assets/images/gallery/DSCF0053.jpg",
     "alt": "Zani and Jan at their Gothic wedding",
     "title": "Gothic Wedding Couple",
-    "category": "Micro Wedding",
-    "description": "20 guests, documentary coverage over 6 hours.",
+    "category": "weddings",
+    "description": "20 guests, documentary coverage over 12 hours. Shot on Canon EOS R10",
     "width": 1200,
     "height": 1797
   },
@@ -21,7 +21,7 @@
     "src": "assets/images/gallery/brand-01.webp",
     "alt": "Ceramicist hands shaping clay on wheel, dramatic side lighting",
     "title": "Studio M Ceramics",
-    "category": "Brand Storytelling",
+    "category": "events",
     "description": "Personal branding for artisan studio. Environmental portraits + process.",
     "width": 1800,
     "height": 1200
@@ -30,7 +30,7 @@
     "src": "assets/images/gallery/maternity-01.webp",
     "alt": "Silhouette of pregnant woman against window, film grain",
     "title": "Expecting",
-    "category": "Maternity",
+    "category": "maternity",
     "description": "In-home session, natural light only.",
     "width": 1200,
     "height": 1800
@@ -39,7 +39,7 @@
     "src": "assets/images/gallery/elopement-02.webp",
     "alt": "Couple's hands intertwined, close detail, moody tones",
     "title": "Drakensberg Elopement",
-    "category": "Elopement",
+    "category": "weddings",
     "description": "Sunrise ceremony at 2800m. Two witnesses, one photographer.",
     "width": 1200,
     "height": 1800
@@ -48,7 +48,7 @@
     "src": "assets/images/gallery/wedding-02.webp",
     "alt": "Father daughter dance, motion blur, emotional moment",
     "title": "Stellenbosch Wedding",
-    "category": "Wedding",
+    "category": "weddings",
     "description": "Full day coverage, 80 guests. Film simulation in post.",
     "width": 1800,
     "height": 1200
