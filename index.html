@@ -1,12 +1,59 @@
-NOMADINC.
-Documentary Photography
-
-View Work
-NOMAD INC.
-
-Documentary Photography
-
-Portfolio 
-Book a Shoot
-@nomadinc
-© 2025 Nomad Inc. · Pretoria, South Africa
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Nomad Inc. — Documentary photography with a moody, film-emulated aesthetic. Elopements, intimate weddings, brand storytelling.">
+  <title>Nomad Inc. — Documentary Photography</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=Fraunces:opsz,wght@9..144,500;9..144,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg">
+</head>
+<body>
+  <header class="hero" role="banner">
+    <div class="hero-bg" aria-hidden="true"></div>
+    <div class="hero-content">
+      <h1 class="logo">
+        NOMAD<span class="inc">INC.</span>
+      </h1>
+      <p class="tagline">Documentary Photography</p>
+      <a href="#gallery" class="cta">View Work</a>
+    </div>
+    <div class="scroll-hint" aria-hidden="true">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 5v14M19 12l-7 7-7-7"/></svg>
+    </div>
+  </header>
+  <main id="gallery" class="gallery" role="main"></main>
+  <footer class="footer" role="contentinfo">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <p class="footer-logo">NOMAD INC.</p>
+        <p class="footer-tagline">Documentary Photography</p>
+      </div>
+      <div class="footer-links">
+        <a href="#gallery">Portfolio</a>
+        <a href="#contact">Book a Shoot</a>
+        <a href="mailto:hello@nomadinc.co.za">hello@nomadinc.co.za</a>
+      </div>
+      <div class="footer-social">
+        <a href="https://instagram.com/nomadinc" target="_blank" rel="noopener" aria-label="Instagram">@nomadinc</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 Nomad Inc. · Pretoria, South Africa</p>
+    </div>
+  </footer>
+  <div id="lightbox" class="lightbox" role="dialog" aria-modal="true" aria-label="Image fullscreen" hidden>
+    <button class="lightbox-close" aria-label="Close">&times;</button>
+    <button class="lightbox-prev" aria-label="Previous">&#8249;</button>
+    <button class="lightbox-next" aria-label="Next">&#8250;</button>
+    <figure class="lightbox-figure">
+      <img id="lightbox-img" src="" alt="">
+      <figcaption id="lightbox-caption"></figcaption>
+    </figure>
+  </div>
+  <script src="assets/js/main.js"></script>
+</body>
+</html>
