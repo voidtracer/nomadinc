@@ -220,3 +220,32 @@ button { font: inherit; background: none; border: none; cursor: pointer; color: 
   .gallery { padding: var(--space-lg) 5%; }
   .gallery-grid { grid-template-columns: 1fr; }
 }
+.gallery-nav {
+  display: flex;
+  gap: var(--space-xs);
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: var(--space-lg);
+}
+
+.gallery-nav button {
+  padding: 0.6rem 1.2rem;
+  border: 1px solid var(--olive);
+  background: transparent;
+  color: var(--olive);
+  font-family: var(--font-ui);
+  font-size: 0.85rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  transition: all var(--transition);
+}
+
+.gallery-nav button:hover {
+  background: var(--olive);
+  color: var(--charcoal);
+}
+
+.gallery-nav button.active {
+  background: var(--olive);
+  color: var(--charcoal);
+}
