@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Nomad Inc. Gallery — Weddings, events, modeling, maternity.">
+  <title>Gallery — Nomad Inc.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=Fraunces:opsz,wght@9..144,500;9..144,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg">
+</head>
+<body>
+  <header class="hero" role="banner">
+    <div class="hero-content">
+      <h1 class="logo">NOMAD<span class="inc">INC.</span></h1>
+      <nav class="hero-nav">
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+      </nav>
+    </div>
+  </header>
+  <nav class="gallery-nav" aria-label="Gallery categories">
+    <button data-category="all" class="active">All Work</button>
+    <button data-category="weddings">Weddings</button>
+    <button data-category="events">Events</button>
+    <button data-category="modeling">Modeling</button>
+    <button data-category="maternity">Maternity</button>
+  </nav>
+  <main id="gallery" class="gallery" role="main"></main>
+  <footer class="footer" role="contentinfo">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <p class="footer-logo">NOMAD INC.</p>
+        <p class="footer-tagline">Documentary Photography</p>
+      </div>
+      <div class="footer-links">
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="https://wa.me/27825127994" target="_blank" rel="noopener">Book via WhatsApp</a>
+      </div>
+      <div class="footer-social">
+        <a href="https://instagram.com/nomadinc" target="_blank" rel="noopener" aria-label="Instagram">@nomadinc</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 Nomad Inc. · Pretoria, South Africa</p>
+    </div>
+  </footer>
+  <div id="lightbox" class="lightbox" role="dialog" aria-modal="true" aria-label="Image fullscreen" hidden>
+    <button class="lightbox-close" aria-label="Close">&times;</button>
+    <button class="lightbox-prev" aria-label="Previous">&#8249;</button>
+    <button class="lightbox-next" aria-label="Next">&#8250;</button>
+    <figure class="lightbox-figure">
+      <img id="lightbox-img" src="" alt="">
+      <figcaption id="lightbox-caption"></figcaption>
+    </figure>
+  </div>
+  <script src="assets/js/main.js"></script>
+</body>
+</html>
