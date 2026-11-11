@@ -1,3 +1,180 @@
+/* ========================================
+   Nomad Inc. — Brand tokens
+   ======================================== */
+:root {
+  --charcoal: #0D0D0D;
+  --charcoal-elevated: #141414;
+  --olive: #6B7A5E;
+  --olive-light: #8AA37A;
+  --brown: #8B6B4A;
+  --brown-light: #A68A6B;
+  --sand: #F2EDE6;
+  --sand-muted: #D4CFC8;
+  --font-display: 'Fraunces', serif;
+  --font-ui: 'DM Sans', sans-serif;
+  --space-xs: 0.5rem;
+  --space-sm: 1rem;
+  --space-md: 2rem;
+  --space-lg: 4rem;
+  --space-xl: 8rem;
+  --container: 1200px;
+  --transition: 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+/* ========================================
+   Reset
+   ======================================== */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+html {
+  scroll-behavior: smooth;
+}
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  * {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+body {
+  font-family: var(--font-ui);
+  background: var(--charcoal);
+  color: var(--sand);
+  line-height: 1.7;
+  font-weight: 300;
+  font-size: 1rem;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+a {
+  color: inherit;
+  text-decoration: none;
+  transition: color var(--transition);
+}
+a:hover {
+  color: var(--olive-light);
+}
+button {
+  font: inherit;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: inherit;
+}
+.container {
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+/* ========================================
+   Header / Hero
+   ======================================== */
+header.hero {
+  position: relative;
+  min-height: 70vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: var(--space-lg) 1rem;
+  overflow: hidden;
+}
+header.hero.hero-landing {
+  background-size: cover;
+  background-position: center;
+  min-height: 65vh;
+}
+header.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(13, 13, 13, 0.45) 0%, rgba(13, 13, 13, 0.9) 100%);
+  pointer-events: none;
+}
+.hero-content {
+  position: relative;
+  z-index: 1;
+  max-width: 700px;
+}
+.logo {
+  font-family: var(--font-display);
+  font-size: clamp(2.5rem, 10vw, 6rem);
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--olive);
+  line-height: 1.05;
+  margin-bottom: var(--space-sm);
+}
+.logo .inc {
+  font-weight: 500;
+  font-size: 0.5em;
+  letter-spacing: 0.25em;
+  margin-left: 0.05em;
+  display: inline-block;
+  border-top: 1px solid var(--brown);
+  padding-top: 0.15em;
+  margin-top: 0.1em;
+  transform: translateY(-0.1em);
+}
+.tagline {
+  font-size: clamp(0.9rem, 2.5vw, 1.25rem);
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--olive);
+  margin-bottom: var(--space-lg);
+  opacity: 0.75;
+  font-weight: 400;
+}
+.cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem 2.5rem;
+  border: 1px solid var(--olive);
+  color: var(--olive);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  font-weight: 500;
+  transition: all var(--transition);
+}
+.cta:hover {
+  background: var(--olive);
+  color: var(--charcoal);
+  border-color: var(--olive);
+}
+.cta:focus-visible {
+  outline: 2px solid var(--brown);
+  outline-offset: 4px;
+}
+.cta-secondary {
+  margin-left: 1rem;
+}
+.hero-nav {
+  position: absolute;
+  top: var(--space-md);
+  right: var(--space-md);
+  display: flex;
+  gap: 1.5rem;
+}
+.hero-nav a {
+  font-size: 0.9rem;
+  opacity: 0.7;
+}
+.hero-nav a:hover {
+  opacity: 1;
+  color: var(--brown-light);
 }
 .scroll-hint {
   position: absolute;
@@ -8,6 +185,7 @@
   opacity: 0.4;
   animation: bounce 2s ease-in-out infinite;
 }
+
 @keyframes bounce {
   0%, 100% {
     transform: translateX(-50%) translateY(0);
@@ -121,6 +299,7 @@
   background: var(--olive);
   color: var(--charcoal);
 }
+
 /* ========================================
    About page
    ======================================== */
@@ -230,6 +409,7 @@
   font-size: 0.85rem;
   color: var(--sand-muted);
 }
+
 /* ========================================
    Lightbox
    ======================================== */
@@ -296,6 +476,7 @@
   color: var(--sand-muted);
   line-height: 1.5;
 }
+
 /* ========================================
    Footer
    ======================================== */
@@ -362,6 +543,7 @@ footer.footer {
   color: var(--olive);
   opacity: 0.5;
 }
+
 /* ========================================
    Responsive
    ======================================== */
