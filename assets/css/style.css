@@ -249,3 +249,122 @@ button { font: inherit; background: none; border: none; cursor: pointer; color: 
   background: var(--olive);
   color: var(--charcoal);
 }
+/* --- Landing page hero with banner image --- */
+.hero-landing {
+  background-size: cover;
+  background-position: center;
+  min-height: 65vh;
+}
+.hero-landing::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(13,13,13,0.5) 0%, rgba(13,13,13,0.9) 100%);
+  pointer-events: none;
+}
+/* --- Landing sections --- */
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+.welcome, .about-preview, .packages {
+  padding: var(--space-xl) 10%;
+}
+.welcome h2, .about-preview h2, .packages h2 {
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 4vw, 2.5rem);
+  font-weight: 600;
+  margin-bottom: var(--space-md);
+  color: var(--sand);
+}
+.welcome p, .about-preview p {
+  font-size: 1.1rem;
+  max-width: 65ch;
+  margin-bottom: var(--space-md);
+  color: var(--sand-muted);
+}
+.btn-link {
+  color: var(--olive);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  font-size: 0.9rem;
+}
+.btn-link:hover { color: var(--brown-light); }
+/* --- Packages --- */
+.package-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: var(--space-md);
+}
+.package-card {
+  border: 1px solid rgba(107,122,94,0.2);
+  padding: var(--space-md);
+  background: var(--charcoal-elevated);
+  transition: transform var(--transition);
+}
+.package-card:hover { transform: translateY(-4px); }
+.package-card h3 {
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  margin-bottom: 0.5rem;
+  color: var(--olive);
+}
+.package-card .price {
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: var(--sand);
+  margin-bottom: 1rem;
+}
+.package-card .features {
+  list-style: none;
+  margin-bottom: 1.5rem;
+  color: var(--sand-muted);
+  font-size: 0.9rem;
+}
+.package-card .features li {
+  margin-bottom: 0.4rem;
+  padding-left: 1rem;
+  position: relative;
+}
+.package-card .features li::before {
+  content: '—';
+  position: absolute;
+  left: 0;
+  color: var(--brown);
+}
+.btn-ghost {
+  display: inline-block;
+  padding: 0.6rem 1.2rem;
+  border: 1px solid var(--olive);
+  color: var(--olive);
+  font-size: 0.85rem;
+  text-decoration: none;
+  transition: all var(--transition);
+}
+.btn-ghost:hover { background: var(--olive); color: var(--charcoal); }
+.btn-primary {
+  display: inline-block;
+  padding: 1rem 2.5rem;
+  background: var(--olive);
+  color: var(--charcoal);
+  text-decoration: none;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  transition: all var(--transition);
+}
+.btn-primary:hover { background: var(--brown); }
+/* --- About page --- */
+.about-page { max-width: 700px; margin: var(--space-xl) auto; padding: 0 1rem; line-height: 1.8; }
+.about-page h2 { font-family: var(--font-display); font-size: 2rem; margin-bottom: var(--space-md); color: var(--olive); }
+.about-page p { margin-bottom: var(--space-md); color: var(--sand-muted); }
+.hero-nav {
+  display: flex;
+  gap: 1.5rem;
+  margin-top: 1rem;
+}
+.hero-nav a {
+  font-size: 0.9rem;
+  opacity: 0.7;
+}
+.hero-nav a:hover { opacity: 1; color: var(--brown-light); }
