@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Nomad Inc. — Documentary photography with a moody, film-emulated aesthetic. Weddings, events, modeling.">
+  <meta name="description" content="Nomad Inc. — Documentary photography with a moody, film-emulated aesthetic. Weddings, events, modeling, maternity.">
   <title>Nomad Inc. — Documentary Photography</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -12,28 +12,71 @@
   <link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg">
 </head>
 <body>
-  <header class="hero" role="banner">
-    <div class="hero-bg" aria-hidden="true"></div>
+  <header class="hero hero-landing" role="banner">
     <div class="hero-content">
       <h1 class="logo">
         NOMAD<span class="inc">INC.</span>
       </h1>
       <p class="tagline">Documentary Photography</p>
-      <a href="#gallery" class="cta">View Work</a>
-    </div>
-    <div class="scroll-hint" aria-hidden="true">
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 5v14M19 12l-7 7-7-7"/></svg>
+      <a href="gallery.html" class="cta">View Work</a>
+      <a href="#packages" class="cta cta-secondary">Packages</a>
     </div>
   </header>
-  <nav class="gallery-nav" aria-label="Gallery categories">
-    <button data-category="all" class="active">All Work</button>
-    <button data-category="weddings">Weddings</button>
-    <button data-category="events">Events</button>
-    <button data-category="modeling">Modeling</button>
-    <button data-category="maternity">Maternity</button>
-    <header class="hero hero-landing" style="background-image: url('assets/images/gallery/M&J 2023-1969.jpg');" role="banner"
-  </nav>
-  <main id="gallery" class="gallery" role="main"></main>
+  <section id="welcome" class="welcome">
+    <div class="container">
+      <h2>Welcome</h2>
+      <p>I am a documentary photographer based in Pretoria, South Africa. My work is moody, film-inspired, and quiet. I photograph elopements, intimate weddings, private events, brand storytelling, and maternity.</p>
+      <p>I do not shoot big weddings anymore. My body cannot keep up, and my best work happens in small spaces where people forget the camera is there.</p>
+      <a href="about.html" class="btn-link">Read my story</a>
+    </div>
+  </section>
+  <section id="about-preview" class="about-preview">
+    <div class="container">
+      <h2>About</h2>
+      <p>Nomad Inc. is built around a single idea: real moments, unposed, captured with a darkroom soul. I shoot with a documentary instinct, emulating the look and grain of film in a darker, moody tone. No direction, no stiff poses. Just what happened.</p>
+      <a href="about.html" class="btn-link">Read my story →</a>
+    </div>
+  </section>
+  <section id="packages" class="packages">
+    <div class="container">
+      <h2>Packages</h2>
+      <div class="package-grid">
+        <article class="package-card">
+          <h3>Elopement</h3>
+          <p class="price">From R3,500</p>
+          <ul class="features">
+            <li>2 hours coverage</li>
+            <li>Up to 6 guests</li>
+            <li>50+ edited images</li>
+            <li>Online gallery</li>
+          </ul>
+          <a href="https://wa.me/27825127994" target="_blank" rel="noopener" class="btn-ghost">Book</a>
+        </article>
+        <article class="package-card">
+          <h3>Micro Wedding</h3>
+          <p class="price">From R6,500</p>
+          <ul class="features">
+            <li>6 hours coverage</li>
+            <li>Up to 40 guests</li>
+            <li>150+ edited images</li>
+            <li>Online gallery</li>
+          </ul>
+          <a href="https://wa.me/27825127994" target="_blank" rel="noopener" class="btn-ghost">Book</a>
+        </article>
+        <article class="package-card">
+          <h3>Brand / Maternity</h3>
+          <p class="price">From R2,500</p>
+          <ul class="features">
+            <li>1.5 hours coverage</li>
+            <li>Environmental portraits</li>
+            <li>40+ edited images</li>
+            <li>Online gallery</li>
+          </ul>
+          <a href="https://wa.me/27825127994" target="_blank" rel="noopener" class="btn-ghost">Book</a>
+        </article>
+      </div>
+    </div>
+  </section>
   <footer class="footer" role="contentinfo">
     <div class="footer-grid">
       <div class="footer-brand">
@@ -41,26 +84,17 @@
         <p class="footer-tagline">Documentary Photography</p>
       </div>
       <div class="footer-links">
-        <a href="#gallery">Portfolio</a>
-        <a href="https://wa.me/27825127994" target="_blank" rel="noopener">Book a Shoot</a>
+        <a href="gallery.html">Gallery</a>
+        <a href="about.html">About</a>
+        <a href="https://wa.me/27825127994" target="_blank" rel="noopener">Book via WhatsApp</a>
       </div>
       <div class="footer-social">
-        <a href="https://instagram.com/nomadinc_za" target="_blank" rel="noopener" aria-label="Instagram">@nomadinc_za</a>
+        <a href="https://instagram.com/nomadinc" target="_blank" rel="noopener" aria-label="Instagram">@nomadinc</a>
       </div>
     </div>
     <div class="footer-bottom">
       <p>© 2025 Nomad Inc. · Pretoria, South Africa</p>
     </div>
   </footer>
-  <div id="lightbox" class="lightbox" role="dialog" aria-modal="true" aria-label="Image fullscreen" hidden>
-    <button class="lightbox-close" aria-label="Close">&times;</button>
-    <button class="lightbox-prev" aria-label="Previous">&#8249;</button>
-    <button class="lightbox-next" aria-label="Next">&#8250;</button>
-    <figure class="lightbox-figure">
-      <img id="lightbox-img" src="" alt="">
-      <figcaption id="lightbox-caption"></figcaption>
-    </figure>
-  </div>
-  <script src="assets/js/main.js"></script>
 </body>
 </html>
